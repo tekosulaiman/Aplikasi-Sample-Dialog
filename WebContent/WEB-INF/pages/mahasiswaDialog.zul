@@ -1,0 +1,37 @@
+<zk>
+<window id="windowDialog" title="Form Mahasiswa" border="normal" width="450px" position="center,center" closable="true" action="show: slideDown; hide: slideUp" mode="modal" apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('vm.MahasiswaVM')">
+	
+	<grid>
+		<auxhead>
+		<auxheader colspan="4">
+			<button id="buttonClosePCD" image="/images/btn_exitdoor2_16x16.gif" onClick="@command('doCloseDialog')"/>
+			<button id="buttonNewPCD" image="/images/btn_new2_16x16.gif"/>
+			<button id="buttonEditPCD" image="/images/btn_edit2_16x16.gif" onClick="@command('doEditDialog')"/>
+			<button id="buttonSavePCD" image="/images/btn_save2_16x16.gif" onClick="@command('doSaveDialog')"/>
+			<button id="buttonDeletePCD" image="/images/btn_delete2_16x16.gif" onClick="@command('doDeleteDialog')"/>
+		</auxheader> 
+		</auxhead>
+		<columns visible="false">
+			<column align="right" width="150px"/>
+			<column/>
+		</columns>
+		<rows>
+			<row style="background:#FFFFFF; border:none" height="25px"/>
+			<row style="background:#FFFFFF; border:none">
+				<label value="Npm"/>
+				<cell colspan="2">
+					<textbox id="textboxNpm" value="@load(vm.mahasiswa.npm)" width="175px" constraint="no empty: Field Harus Terisi !" maxlength="20"/>
+				</cell>
+			</row>
+			<row style="background:#FFFFFF; border:none">
+				<label value="Nama"/>
+				<cell colspan="2">
+					<textbox id="textboxNama" value="@load(vm.mahasiswa.nama)" width="175px" constraint="no empty: Field Harus Terisi !" maxlength="20"/>
+				</cell>
+			</row>
+			<row style="background:#FFFFFF; border:none" height="25px"/>
+		</rows>
+	</grid>
+
+</window>
+</zk>

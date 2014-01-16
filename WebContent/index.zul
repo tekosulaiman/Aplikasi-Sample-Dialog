@@ -1,0 +1,51 @@
+<zk>
+<window border="none" apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('vm.MahasiswaVM')">
+		
+	<!-- Navigasi Menu -->
+	<div sclass="z-toolbar" style="padding:0">
+		<hbox pack="stretch" width="100%">
+
+			<toolbar align="start" style="float:left; border-style: none;">
+				<hbox align="center" style="padding: 2px">
+					<space/>
+					<label value="Npm"/>
+					<textbox width="100px"/>
+					<space/>
+					<label value="Nama"/>
+					<textbox width="100px"/>
+					<button image="/images/btn_search2_16x16.gif" onClick="@command('doFilter')"/>
+				</hbox>
+			</toolbar>
+				
+			<toolbar align="end" style="float:right; border-style: none;">
+				<button image="/images/btn_new2_16x16.gif" onClick="@command('doNew')"/>
+				<button image="/images/btn_delete2_16x16.gif" onClick="@command('doDelete')"/>
+				<button image="/images/refresh2_yellow_16x16.gif" onClick="@command('doRefresh')"/>
+				<button image="/images/btn_search2_16x16.gif" onClick="@command('doSearch')"/>
+				<button image="/images/btn_cancel2_16x16.gif"/>
+				<button image="/images/btn_print2_16x16.gif"/>	
+				<space/>			
+			</toolbar>
+		</hbox>
+	</div>
+	<!-- Navigasi Menu -->
+		
+	<!-- Table Database -->
+	<listbox id="listboxMahasiswa" style="border-style: none;" checkmark="true" rows="20" multiple="true" mold="paging" pagingPosition="bottom" model="@bind(vm.mahasiswas)" selectedItem="@bind(vm.mahasiswa)">
+		<listhead>
+			<listheader align="center" width="5%"/>
+			<listheader label="Npm"/>
+			<listheader label="Nama"/>			
+		</listhead>
+		<template name="model" var="item">
+		<listitem>
+			<listcell image="/images/btn_edit2_16x16.gif" onClick="@command('doView')"/>				
+			<listcell label="@bind(item.npm)"/>				
+			<listcell label="@bind(item.nama)"/>				
+		</listitem>
+		</template>
+	</listbox>
+	<!-- Table Database -->
+
+</window>
+</zk>

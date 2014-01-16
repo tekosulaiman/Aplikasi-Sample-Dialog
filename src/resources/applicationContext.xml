@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+					       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+					       http://www.springframework.org/schema/context 
+					       http://www.springframework.org/schema/context/spring-context-2.5.xsd
+					       http://www.springframework.org/schema/tx 
+					       http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:jdbc.properties" />
+	</bean>
+       
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+        p:driverClassName="${jdbc.driver_class}"
+        p:url="${jdbc.url}"
+        p:username="${jdbc.username}"
+        p:password="${jdbc.password}"/>
+       
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	    <property name="dataSource" ref="dataSource" />
+	    <property name="configLocation" value="classpath:hibernate.cfg.xml" />
+	    <property name="hibernateProperties">
+	      <value>
+	        hibernate.dialect=${hibernate.dialect}
+	        hibernate.show_sql=${hibernate.show_sql}
+	        hibernate.generate_statistics=${hibernate.generate_statistics}
+	      </value>
+	    </property>
+  	</bean>   
+  	
+  <!-- Activates scanning of @Transactional -->
+  <tx:annotation-driven  />
+  	
+  <!-- ====================================================== -->
+  <!-- Hibernate Template -->
+  <!-- ====================================================== -->
+  <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+    <property name="sessionFactory" ref="sessionFactory" />
+    <property name="maxResults" value="3000" />
+  </bean>
+
+  <!-- ====================================================== -->
+  <!-- Base bean -->
+  <!-- ====================================================== -->
+  <bean id="genenericDAO" abstract="true" p:hibernateTemplate-ref="hibernateTemplate"
+    class="tools.GenenericDAO">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+       
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+        p:sessionFactory-ref="sessionFactory"/>
+
+	<bean id="mahasiswaDAO" class="dao.impl.MahasiswaDAOImpl" parent="genenericDAO"/>
+		
+	<bean id="mahasiswaService" class="service.impl.MahasiswaServiceImpl">
+		<property name="mahasiswaDAO" ref="mahasiswaDAO" />
+	</bean>
+</beans>
